@@ -30,16 +30,16 @@ from the repository.
 1. Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
 
    ```console
-   $ sudo apt update & sudo apt upgrade
+   sudo apt update & sudo apt upgrade
    ```
    ```console
-   $ sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release
+   sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release
    ```
 
 3. Add Docker's official GPG key:
    
    ```console
-   $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
    ```
 
 4. Use the following command to set up the **stable** repository. To add the
@@ -47,7 +47,7 @@ from the repository.
    after the word `stable` in the commands below.
    
    ```console
-   $ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
    ```
 
 #### Install Docker Engine
@@ -56,17 +56,17 @@ from the repository.
    Engine and containerd, or go to the next step to install a specific version:
    
    ```console
-   $ sudo apt update
+   sudo apt update
    ```
    ```console
-   $ sudo apt install docker-ce docker-ce-cli containerd.io
+   sudo apt install docker-ce docker-ce-cli containerd.io
    ```
 
 2. Verify that Docker Engine is installed correctly by running the `hello-world`
    image.
 
    ```console
-   $ sudo docker run hello-world
+   sudo docker run hello-world
    ```
 
 This command downloads a test image and runs it in a container. When the
@@ -80,17 +80,17 @@ are added to it. You need to use `sudo` to run Docker commands.
 To add the CVMFS repository and install CVMFS run : 
 
 ```console
-$ sudo apt install lsb-release
+sudo apt install lsb-release
 
-$ wget https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest_all.deb
+wget https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest_all.deb
 
-$ sudo dpkg -i cvmfs-release-latest_all.deb
+sudo dpkg -i cvmfs-release-latest_all.deb
 
-$ rm -f cvmfs-release-latest_all.deb
+rm -f cvmfs-release-latest_all.deb
 
-$ sudo apt update  
+sudo apt update  
 
-$ sudo apt install cvmfs
+sudo apt install cvmfs
 ```
 
 Set up cvmfs 
@@ -110,15 +110,15 @@ CVMFS_HTTP_PROXY=DIRECT
 Create these two directories 
 
 ```console
-$ sudo mkdir /cvmfs/singularity.openscience.org
-$ sudo mkdir /cvmfs/oasis.openscience.org
+sudo mkdir /cvmfs/singularity.openscience.org
+sudo mkdir /cvmfs/oasis.openscience.org
 ```
 
 Mount these two directories 
 
 ```console
-$ sudo mount -t cvmfs singularity.opensciencegrid.org /cvmfs/singularity.opensciencegrid.org
-$ sudo mount -t cvmfs oasis.opensciencegrid.org /cvmfs/oasis.opensciencegrid.org
+sudo mount -t cvmfs singularity.opensciencegrid.org /cvmfs/singularity.opensciencegrid.org
+sudo mount -t cvmfs oasis.opensciencegrid.org /cvmfs/oasis.opensciencegrid.org
 ```
 
 # Install clas12software docker
