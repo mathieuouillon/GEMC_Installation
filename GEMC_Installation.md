@@ -65,9 +65,9 @@ from the repository.
 2. Verify that Docker Engine is installed correctly by running the `hello-world`
    image.
 
-```bash
+   ```bash
     $ sudo docker run hello-world
-```
+   ```
 
 This command downloads a test image and runs it in a container. When the
 container runs, it prints an informational message and exits.
