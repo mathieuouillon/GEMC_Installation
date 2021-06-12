@@ -112,6 +112,13 @@ Set up cvmfs
 sudo cvmfs_config setup
 ```
 
+Verify if the two folder are create : 
+```console
+cvmfs_config probe
+```
+
+
+
 
 
 # Install clas12software docker
