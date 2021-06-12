@@ -29,16 +29,16 @@ from the repository.
 
 1. Update the `apt` package index and install packages to allow `apt` to use a repository over HTTPS:
 
-   ```bash
+   ```console
    $ sudo apt update & sudo apt upgrade
    ```
-   ```bash
+   ```console
    $ sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release
    ```
 
 3. Add Docker's official GPG key:
    
-   ```bash
+   ```console
    $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
    ```
 
@@ -46,7 +46,7 @@ from the repository.
    **nightly** or **test** repository, add the word `nightly` or `test` (or both)
    after the word `stable` in the commands below.
    
-   ```bash
+   ```console
    $ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
    ```
 
@@ -55,17 +55,17 @@ from the repository.
 1. Update the `apt` package index, and install the _latest version_ of Docker
    Engine and containerd, or go to the next step to install a specific version:
    
-   ```bash
+   ```console
    $ sudo apt update
    ```
-   ```bash
+   ```console
    $ sudo apt install docker-ce docker-ce-cli containerd.io
    ```
 
 2. Verify that Docker Engine is installed correctly by running the `hello-world`
    image.
 
-   ```bash
+   ```console
    $ sudo docker run hello-world
    ```
 
@@ -79,7 +79,7 @@ are added to it. You need to use `sudo` to run Docker commands.
 
 To add the CVMFS repository and install CVMFS run : 
 
-```bash
+```console
 $ sudo apt install lsb-release
 
 $ wget https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest_all.deb
@@ -95,7 +95,7 @@ $ sudo apt install cvmfs
 
 Set up cvmfs 
 
-```bash
+```console
 sudo cvmfs_config setup
 ```
 
@@ -109,16 +109,16 @@ CVMFS_HTTP_PROXY=DIRECT
 
 Create these two directories 
 
-```bash
+```console
 $ sudo mkdir /cvmfs/singularity.openscience.org
 $ sudo mkdir /cvmfs/oasis.openscience.org
 ```
 
 Mount these two directories 
 
-```bash
-sudo mount -t cvmfs singularity.opensciencegrid.org /cvmfs/singularity.opensciencegrid.org
-sudo mount -t cvmfs oasis.opensciencegrid.org /cvmfs/oasis.opensciencegrid.org
+```console
+$ sudo mount -t cvmfs singularity.opensciencegrid.org /cvmfs/singularity.opensciencegrid.org
+$ sudo mount -t cvmfs oasis.opensciencegrid.org /cvmfs/oasis.opensciencegrid.org
 ```
 
 # Install clas12software docker
