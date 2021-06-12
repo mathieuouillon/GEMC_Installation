@@ -123,7 +123,7 @@ cvmfs_config probe
 
 # Install clas12software docker
 
-Create folder : `sudo mkdir ~/mywork`
+Create folder : `mkdir ~/mywork`
 
 Download source and detectors from Viktoriya github : 
    ```console
