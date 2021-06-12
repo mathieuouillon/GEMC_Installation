@@ -81,16 +81,29 @@ To add the CVMFS repository and install CVMFS run :
 
 ```console
 sudo apt install lsb-release
-
+```
+```console
 wget https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest_all.deb
-
+```
+```console
 sudo dpkg -i cvmfs-release-latest_all.deb
-
+```
+```console
 rm -f cvmfs-release-latest_all.deb
-
+```
+```console
 sudo apt update  
-
+```
+```console
 sudo apt install cvmfs
+```
+
+Create `/etc/cvmfs/default.local` with `sudo nano /etc/cvmfs/default.local` and write in :
+
+```vim
+CVMFS_QUOTA=10000
+CVMFS_REPOSITORIES=oasis.opensciencegrid.org, singularity.opensciencegrid.org
+CVMFS_HTTP_PROXY=DIRECT
 ```
 
 Set up cvmfs 
@@ -99,13 +112,7 @@ Set up cvmfs
 sudo cvmfs_config setup
 ```
 
-Create `/etc/cvmfs/default.local`  and write in :
 
-```vim
-CVMFS_QUOTA=10000
-CVMFS_REPOSITORIES=oasis.opensciencegrid.org, singularity.opensciencegrid.org
-CVMFS_HTTP_PROXY=DIRECT
-```
 
 # Install clas12software docker
 
