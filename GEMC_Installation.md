@@ -31,7 +31,8 @@ from the repository.
 
    ```bash
    $ sudo apt update & sudo apt upgrade
-   
+   ```
+   ```bash
    $ sudo apt install \
        apt-transport-https \
        ca-certificates \
