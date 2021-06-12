@@ -125,6 +125,14 @@ cvmfs_config probe
 
 Create folder : `sudo mkdir ~/mywork`
 
+Download source and detectors from Viktoriya github : 
+   ```console
+   git clone https://github.com/Viktoriya89/source ~/mywork/
+   ```
+   ```console
+   git clone https://github.com/Viktoriya89/detectors ~/mywork/
+   ```
+
    ```console
    sudo docker run -it --rm -v /cvmfs:/cvmfs jeffersonlab/clas12software:production bash
    ```
