@@ -123,6 +123,8 @@ cvmfs_config probe
 
 # Install clas12software docker
 
+Create folder : `sudo mkdir ~/mywork`
+
    ```console
    sudo docker run -it --rm -v /cvmfs:/cvmfs jeffersonlab/clas12software:production bash
    ```
