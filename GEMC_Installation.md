@@ -108,3 +108,7 @@ CVMFS_HTTP_PROXY=DIRECT
 ```
 
 # Install clas12software docker
+
+   ```console
+   sudo docker run -it --rm -p 6080:6080 -v /cvmfs:/cvmfs -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production
+   ```
