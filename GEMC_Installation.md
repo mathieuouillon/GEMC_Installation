@@ -43,7 +43,7 @@ from the repository.
 3. Add Docker's official GPG key:
    
    ```bash
-   $ curl -fsSL {{ download-url-base }}/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+   $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
    ```
 
 4. Use the following command to set up the **stable** repository. To add the
