@@ -134,7 +134,7 @@ Download source and detectors from Viktoriya github :
    ```
    
    ```console
-   sudo docker run -it --rm v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:devel bash
+   sudo docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:devel bash
    ```
    
    Build gemc from source : `cd ~/mywork/source`
