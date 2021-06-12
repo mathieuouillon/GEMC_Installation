@@ -127,10 +127,10 @@ Create folder : `mkdir ~/mywork`
 
 Download source and detectors from Viktoriya github : 
    ```console
-   git clone https://github.com/Viktoriya89/source ~/mywork/
+   git clone https://github.com/Viktoriya89/source ~/mywork/source
    ```
    ```console
-   git clone https://github.com/Viktoriya89/detectors ~/mywork/
+   git clone https://github.com/Viktoriya89/detectors ~/mywork/detectors
    ```
    
    ```console
