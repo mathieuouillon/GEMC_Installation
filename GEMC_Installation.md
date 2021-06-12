@@ -77,14 +77,24 @@ are added to it. You need to use `sudo` to run Docker commands.
 
 # Install cvmfs
 
-Set up the repository and install cvmfs 
+Set up the repository and install cvmfs : 
 
 ```bash
 sudo apt install lsb-release
+```
+```bash
 wget https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest_all.deb
+```
+```bash
 sudo dpkg -i cvmfs-release-latest_all.deb
+```
+```bash
 rm -f cvmfs-release-latest_all.deb
+```
+```bash
 sudo apt update  
+```
+```bash
 sudo apt install cvmfs
 ```
 
