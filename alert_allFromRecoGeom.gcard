@@ -1,0 +1,17 @@
+<gcard>
+
+	<!-- Implementation ahdc, example -->
+	<detector name="/jlab/work/mywork/detectors/clas12/alert/AHDC_geom/ahdc" factory="TEXT" variation="rga_fall2018"/>
+	<detector name="/jlab/work/mywork/detectors/clas12/alert/ATOF_geom/myatof" factory="TEXT" variation="default"/>
+
+	<option name="BEAM_P" value="e-, 10.0*GeV, 20*deg, 20*deg"/>
+	<option name="SPREAD_P" value="2.0*GeV, 20*deg, 180*deg, flat"/>
+	
+	<option name="BEAM_V" value="(0, 0, -2.0)cm"/>
+	<option name="SPREAD_V" value="(0.0, 0.0)cm"/>	
+	
+	<option name="OUTPUT" value="txt, alert_allFromRecoGeom_june2020.txt"/>
+	<option name="N" value="50"/>
+
+
+</gcard>
