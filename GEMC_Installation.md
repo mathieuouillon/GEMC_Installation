@@ -132,18 +132,25 @@ Download source and detectors from Viktoriya github :
    ```console
    git clone https://github.com/Viktoriya89/detectors ~/mywork/
    ```
-
-   ```console
-   sudo docker run -it --rm -v /cvmfs:/cvmfs jeffersonlab/clas12software:production bash
-   ```
    
    ```console
    sudo docker run -it --rm v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:devel bash
+   ```
+   
+   Build gemc from source : `cd ~/mywork/source`
+   ```console
+   scons -j4 OPT=1
    ```
 
    ```console
    sudo docker run -it --rm -p 6080:6080 -v /cvmfs:/cvmfs -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production
    ```
    
+   ``console
+   sudo docker run -it --rm -v /cvmfs:/cvmfs jeffersonlab/clas12software:production bash
+   ```
+   
    pour quitter un docker en interactive crtl p + crtl q 
+   
+
 
