@@ -102,7 +102,7 @@ Create `/etc/cvmfs/default.local` with `sudo nano /etc/cvmfs/default.local` and 
 
 ```vim
 CVMFS_QUOTA=10000
-CVMFS_REPOSITORIES=oasis.opensciencegrid.org, singularity.opensciencegrid.org
+CVMFS_REPOSITORIES=oasis.opensciencegrid.org,singularity.opensciencegrid.org
 CVMFS_HTTP_PROXY=DIRECT
 ```
 
