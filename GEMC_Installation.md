@@ -112,3 +112,6 @@ CVMFS_HTTP_PROXY=DIRECT
    ```console
    sudo docker run -it --rm -p 6080:6080 -v /cvmfs:/cvmfs -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production
    ```
+   
+   pour quitter un docker en interactive crtl p + crtl q 
+
