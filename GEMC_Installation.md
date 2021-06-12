@@ -107,18 +107,4 @@ CVMFS_REPOSITORIES=oasis.opensciencegrid.org, singularity.opensciencegrid.org
 CVMFS_HTTP_PROXY=DIRECT
 ```
 
-Create these two directories 
-
-```console
-sudo mkdir /cvmfs/singularity.openscience.org
-sudo mkdir /cvmfs/oasis.openscience.org
-```
-
-Mount these two directories 
-
-```console
-sudo mount -t cvmfs singularity.opensciencegrid.org /cvmfs/singularity.opensciencegrid.org
-sudo mount -t cvmfs oasis.opensciencegrid.org /cvmfs/oasis.opensciencegrid.org
-```
-
 # Install clas12software docker
