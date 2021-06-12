@@ -64,7 +64,7 @@ from the repository.
    image.
 
    ```bash
-    $ sudo docker run hello-world
+   $ sudo docker run hello-world
    ```
 
 This command downloads a test image and runs it in a container. When the
