@@ -91,6 +91,9 @@ Create folder : `mkdir ~/mywork` and `cd ~/mywork`
    git clone https://github.com/JeffersonLab/clas12-offline-software
    ```
    ```console 
+   cd clas12-offline-software
+   ```
+   ```console 
    git checkout Alert
    ```
    ```console 
