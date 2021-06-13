@@ -78,7 +78,83 @@ are added to it. You need to use `sudo` to run Docker commands.
 
 # Download `clas12software` docker
 
-Create folder : `mkdir ~/mywork`
+Create folder : `mkdir ~/mywork` and `cd ~/mywork`
+
+   ```console 
+   git clone https://github.com/gemc/detectors 
+   ```
+   
+   ```console 
+   cd detectors/clas12
+   ```
+   ```console 
+   git clone https://github.com/JeffersonLab/clas12-offline-software
+   ```
+   ```console 
+   git checkout Alert
+   ```
+   ```console 
+   ./build-coatjava.sh
+   ```
+   ```console 
+   cp coatjava/lib/clas/* ..
+   ```
+   ```console 
+   cd .. 
+   ```
+   ```console 
+   sudo ./clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11
+   ```
+   ```console 
+   cp ahdc__* alert/AHDC_geom/
+   ```
+   ```console 
+   sudo ./clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11
+   ```
+   ```console 
+   cp atof__* alert/ATOF_geom/
+   ```
+   ```console
+   git clone https://github.com/gemc/source ~/mywork/source
+   ```   
+   ```console
+   sudo docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:devel bash
+   ```
+   ```console
+   cd /jlab/work/mywork/detectors/clas12/alert/AHDC_geom/
+   ```
+   ```console
+   ./ahdc.pl config.dat
+   ```   
+   ```console
+   cd /jlab/work/mywork/detectors/clas12/alert/ATOF_geom/
+   ```
+   ```console
+   ./atof.pl config.dat
+   ```   
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Download source and detectors from Viktoriya github :
    ```console
