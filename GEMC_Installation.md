@@ -126,6 +126,7 @@ Create folder : `mkdir ~/mywork` and `cd ~/mywork`
    ```
    ```console
    git clone https://github.com/gemc/source ~/mywork/source
+   git clone https://github.com/Viktoriya89/source ~/mywork/source
    ```   
    ```console
    sudo docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:devel bash
@@ -143,6 +144,16 @@ Create folder : `mkdir ~/mywork` and `cd ~/mywork`
    
    ```console
    ./atof.pl config.dat
+   ```   
+   
+   
+   ```console
+   cd /jlab/work/mywork/source 
+   ```   
+   
+   build gemc : 
+   ```console
+   scons -j4 OPT=1
    ```   
    
 
