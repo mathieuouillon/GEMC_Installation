@@ -137,8 +137,10 @@ Create folder : `mkdir ~/mywork` and `cd ~/mywork`
    ./ahdc.pl config.dat
    ```   
    ```console
-   cd /jlab/work/mywork/detectors/clas12/alert/ATOF_geom/
+   cd /jlab/work/mywork/detectors/clas12/alert/ATOF_geom/  
    ```
+   Change `config.dat` line `detector_name : myatof ` to `detector_name : atof ` 
+   
    ```console
    ./atof.pl config.dat
    ```   
