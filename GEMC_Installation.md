@@ -155,9 +155,8 @@ Create folder : `mkdir ~/mywork` and `cd ~/mywork`
    ```console
    scons -j4 OPT=1
    ```   
+   Create the gcard based on the existant one : 
    
-
-
 
 
 
