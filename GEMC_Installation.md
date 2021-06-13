@@ -122,7 +122,7 @@ Create folder : `mkdir ~/mywork` and `cd ~/mywork`
    cp atof__* alert/ATOF_geom/
    ```
    ```console 
-   cd ~/mywork/
+   cd
    ```
    ```console
    git clone https://github.com/gemc/source ~/mywork/source
