@@ -81,6 +81,10 @@ are added to it. You need to use `sudo` to run Docker commands.
 Create folder : `mkdir ~/mywork` and `cd ~/mywork`
 
    ```console 
+   sudo apt install python-is-python3 maven 
+   ```
+
+   ```console 
    git clone https://github.com/gemc/detectors 
    ```
    
