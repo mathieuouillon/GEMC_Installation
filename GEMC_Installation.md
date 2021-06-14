@@ -128,7 +128,13 @@ Create folder : `mkdir ~/mywork` and `cd ~/mywork`
    git clone https://github.com/gemc/source ~/mywork/source
    ```   
    ```console
-   git clone https://github.com/gavalian/hipo ~/mywork/hipo
+   git clone --recurse-submodules https://github.com/gavalian/hipo
+   ``` 
+   ```console
+   cd hipo
+   ``` 
+   ```console
+   make
    ``` 
    ```console
    cp -r ~/mywork/hipo/hipo4 ~/mywork/source/output/
