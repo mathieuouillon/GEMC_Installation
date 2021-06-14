@@ -126,8 +126,13 @@ Create folder : `mkdir ~/mywork` and `cd ~/mywork`
    ```
    ```console
    git clone https://github.com/gemc/source ~/mywork/source
-   git clone https://github.com/Viktoriya89/source ~/mywork/source
    ```   
+   ```console
+   git clone https://github.com/gavalian/hipo ~/mywork/hipo
+   ``` 
+   ```console
+   cp -r ~/mywork/hipo/hipo4 ~/mywork/source/output/
+   ``` 
    ```console
    sudo docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:devel bash
    ```
