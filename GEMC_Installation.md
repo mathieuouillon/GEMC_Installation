@@ -178,3 +178,40 @@ sudo docker run -it --rm -p 6080:6080 -v ~/mywork:/jlab/work/mywork jeffersonlab
 For quit interactive docker : `crtl p + crtl q`
 
 # Generate ALERT geometry
+ ```console 
+git clone https://github.com/gemc/detectors 
+```
+
+```console 
+cd detectors/clas12
+```
+```console 
+git clone https://github.com/JeffersonLab/clas12-offline-software
+```
+```console 
+cd clas12-offline-software
+```
+```console 
+git checkout Alert
+```
+```console 
+./build-coatjava.sh
+```
+```console 
+cp coatjava/lib/clas/* ..
+```
+```console 
+cd .. 
+```
+```console 
+./clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11
+```
+```console 
+cp ahdc__* alert/AHDC_geom/
+```
+```console 
+./clas12-offline-software/coatjava/bin/run-groovy alert/ATOF_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11
+```
+```console 
+cp atof__* alert/ATOF_geom/
+```
