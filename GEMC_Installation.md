@@ -91,13 +91,13 @@ To create the `docker` group and add your user:
 1.  Create the `docker` group.
 
     ```console
-    $ sudo groupadd docker
+    sudo groupadd docker
     ```
 
 2.  Add your user to the `docker` group.
 
     ```console
-    $ sudo usermod -aG docker $USER
+    sudo usermod -aG docker $USER
     ```
 
 3.  Log out and log back in so that your group membership is re-evaluated.
@@ -105,13 +105,13 @@ To create the `docker` group and add your user:
     On Linux, you can also run the following command to activate the changes to groups:
     
     ```console 
-    $ newgrp docker 
+    newgrp docker 
     ```
 
 4.  Verify that you can run `docker` commands without `sudo`.
 
     ```console
-    $ docker run hello-world
+    docker run hello-world
     ```
 
 # Install cvmfs
@@ -144,7 +144,7 @@ sudo apt install cvmfs
 
    ```vim
    CVMFS_QUOTA=10000
-   CVMFS_REPOSITORIES=oasis.opensciencegrid.org,singularity.opensciencegrid.org
+   CVMFS_REPOSITORIES=oasis.opensciencegrid.org
    CVMFS_HTTP_PROXY=DIRECT
    ```
 
@@ -166,13 +166,13 @@ sudo apt install cvmfs
 Create folder : `mkdir ~/mywork` and `cd ~/mywork`
 
 ```console
-sudo docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
+sudo docker run -it --rm -v /cvmfs:/cvmfs -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
 ```
 
 For having an interactive windows :
 
 ```console
-sudo docker run -it --rm -p 6080:6080 -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
+sudo docker run -it --rm -p 6080:6080 -v /cvmfs:/cvmfs -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
 ```
 
 For quit interactive docker : `crtl p + crtl q`
