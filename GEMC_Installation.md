@@ -1,7 +1,3 @@
-# Simulation GEMC Installation
-
-# ---------------------------------------------------------
-
 # Install Docker Engine on Ubuntu
 
 ## Prerequisites
@@ -75,141 +71,110 @@ container runs, it prints an informational message and exits.
 Docker Engine is installed and running. The `docker` group is created but no users
 are added to it. You need to use `sudo` to run Docker commands.
 
+## Manage Docker as a non-root user
+
+The Docker daemon binds to a Unix socket instead of a TCP port. By default
+that Unix socket is owned by the user `root` and other users can only access it
+using `sudo`. The Docker daemon always runs as the `root` user.
+
+If you don't want to preface the `docker` command with `sudo`, create a Unix
+group called `docker` and add users to it. When the Docker daemon starts, it
+creates a Unix socket accessible by members of the `docker` group.
+
+> Warning
+>
+> The `docker` group grants privileges equivalent to the `root`
+> user.
+
+To create the `docker` group and add your user:
+
+1.  Create the `docker` group.
+
+    ```console
+    $ sudo groupadd docker
+    ```
+
+2.  Add your user to the `docker` group.
+
+    ```console
+    $ sudo usermod -aG docker $USER
+    ```
+
+3.  Log out and log back in so that your group membership is re-evaluated.
+    
+    On Linux, you can also run the following command to activate the changes to groups:
+    
+    ```console 
+    $ newgrp docker 
+    ```
+
+4.  Verify that you can run `docker` commands without `sudo`.
+
+    ```console
+    $ docker run hello-world
+    ```
+
+# Install cvmfs
+
+## Getting the software 
+
+To add the CVMFS repository and install CVMFS run : 
+
+```console
+wget https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest_all.deb
+```
+```console
+sudo dpkg -i cvmfs-release-latest_all.deb
+```
+```console
+rm -f cvmfs-release-latest_all.deb
+```
+```console
+sudo apt update  
+```
+```console
+sudo apt install cvmfs
+```
+
+## Setting up the Software
+
+1. Create default.local
+
+   Create `/etc/cvmfs/default.local` with `sudo nano /etc/cvmfs/default.local` and write in :
+
+   ```vim
+   CVMFS_QUOTA=10000
+   CVMFS_REPOSITORIES=oasis.opensciencegrid.org,singularity.opensciencegrid.org
+   CVMFS_HTTP_PROXY=DIRECT
+   ```
+
+2. Configure AutoFS
+
+   ```console
+   sudo cvmfs_config setup
+   ```
+
+3. Verify the file system
+   Check if CernVM-FS mounts the specified repositories by : 
+   ```console
+   cvmfs_config probe
+   ```
+   If the probe fails, try to restart autofs with `sudo systemctl restart autofs`
 
 # Download `clas12software` docker
 
 Create folder : `mkdir ~/mywork` and `cd ~/mywork`
 
-   ```console 
-   sudo apt install python-is-python3 maven groovy
-   ```
+```console
+sudo docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
+```
 
-   ```console 
-   git clone https://github.com/gemc/detectors 
-   ```
-   
-   ```console 
-   cd detectors/clas12
-   ```
-   ```console 
-   git clone https://github.com/JeffersonLab/clas12-offline-software
-   ```
-   ```console 
-   cd clas12-offline-software
-   ```
-   ```console 
-   git checkout Alert
-   ```
-   ```console 
-   ./build-coatjava.sh
-   ```
-   ```console 
-   cp coatjava/lib/clas/* ..
-   ```
-   ```console 
-   cd .. 
-   ```
-   ```console 
-   ./clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11
-   ```
-   ```console 
-   cp ahdc__* alert/AHDC_geom/
-   ```
-   ```console 
-   ./clas12-offline-software/coatjava/bin/run-groovy alert/ATOF_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11
-   ```
-   ```console 
-   cp atof__* alert/ATOF_geom/
-   ```
-   ```console 
-   cd
-   ```
-   ```console
-   git clone https://github.com/gemc/source ~/mywork/source
-   ```   
-   ```console
-   git clone --recurse-submodules https://github.com/gavalian/hipo
-   ``` 
-   ```console
-   cd hipo
-   ``` 
-   ```console
-   make
-   ``` 
-   ```console
-   cp -r ~/mywork/hipo/hipo4 ~/mywork/source/output/
-   ``` 
-   ```console
-   sudo docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:devel bash
-   ```
-   ```console
-   cd /jlab/work/mywork/detectors/clas12/alert/AHDC_geom/
-   ```
-   ```console
-   ./ahdc.pl config.dat
-   ```   
-   ```console
-   cd /jlab/work/mywork/detectors/clas12/alert/ATOF_geom/  
-   ```
-   Change `config.dat` line `detector_name : myatof ` to `detector_name : atof ` 
-   
-   ```console
-   ./atof.pl config.dat
-   ```   
-   
-   
-   ```console
-   cd /jlab/work/mywork/source 
-   ```   
-   
-   build gemc : 
-   ```console
-   scons -j4 OPT=1
-   ```   
-   Create the gcard based on the existant one : 
-   
+For having an interactive windows :
 
+```console
+sudo docker run -it --rm -p 6080:6080 -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
+```
 
+For quit interactive docker : `crtl p + crtl q`
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Download source and detectors from Viktoriya github :
-   ```console
-   git clone https://github.com/Viktoriya89/source ~/mywork/source
-   ```
-   ```console
-   git clone https://github.com/Viktoriya89/detectors ~/mywork/detectors
-   ```
-
-   ```console
-   sudo docker run -it --rm -v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:devel bash
-   ```
-
-   Build gemc from source : `cd ~/mywork/source`
-   ```console
-   scons -j4 OPT=1
-   ```
-
-   For having an interactive windows :
-
-   ```console
-   sudo docker run -it --rm -p 6080:6080 -v ~/mywork:/jlab/work/mywork jeffersonlab/gemc:devel
-   ```
-
-   For quit interactive docker to : `crtl p + crtl q`
+# Generate ALERT geometry
