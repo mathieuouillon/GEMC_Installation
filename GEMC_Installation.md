@@ -1,3 +1,106 @@
+```console
+xhost 127.0.0.1
+```
+```console
+xhost local:root
+```
+
+```console
+export DISPLAY=:0
+```
+
+```console
+docker run -it --rm -v /cvmfs:/cvmfs -v /tmp/.X11-unix:/tmp X11-unix -v /vol0/mywork:/jlab/work/mywork -e DISPLAY=$DISPLAY jeffersonlab/clas12software:production /bin/bash
+```
+
+Nouvelle gcard : 
+ 
+```vim
+<gcard>
+
+	<!--ALERT -->
+	<detector name="/jlab/work/mywork/ahdc" factory="TEXT" variation="default"/>
+	<detector name="/jlab/work/mywork/myatof" factory="TEXT" variation="default"/>
+
+	<!-- magnets -->
+	<detector name="experiments/clas12/magnets/solenoid" factory="TEXT" variation="original"/>
+	<detector name="experiments/clas12/magnets/cad/"     factory="CAD" />
+
+	<!--high threshold cherenkov -->
+	<detector name="experiments/clas12/htcc/htcc"      factory="TEXT" variation="original"/>
+
+	<!-- forward carriage -->
+	<detector name="experiments/clas12/fc/forwardCarriage" factory="TEXT" variation="TorusSymmetric"/>
+
+	<detector name="experiments/clas12/dc/dc"              factory="TEXT" variation="default"/>
+	<detector name="experiments/clas12/ftof/ftof"          factory="TEXT" variation="default"/>
+	<detector name="experiments/clas12/ec/ec"              factory="TEXT" variation="default"/>
+	<detector name="experiments/clas12/pcal/pcal"          factory="TEXT" variation="default"/>
+	<detector name="experiments/clas12/ltcc/ltcc"          factory="TEXT" variation="default"/>
+	<detector name="experiments/clas12/ltcc/cad_cone/"     factory="CAD"/>
+	<detector name="experiments/clas12/ltcc/cad/"          factory="CAD"/>
+
+	<!-- you can scale the fields here. Remember torus -1 means e- INBENDING  -->
+	<option name="SCALE_FIELD" value="TorusSymmetric, -1"/>
+	<option name="SCALE_FIELD" value="clas12-newSolenoid, -1"/>
+
+	<!-- hall field  -->
+	<option name="HALL_FIELD"  value="clas12-newSolenoid"/>
+
+	<!-- fields, precise mode -->
+	<option name="FIELD_PROPERTIES" value="TorusSymmetric,     2*mm, G4ClassicalRK4, linear"/>
+	<option name="FIELD_PROPERTIES" value="clas12-newSolenoid, 1*mm, G4ClassicalRK4, linear"/>
+
+	<!-- beam conditions -->
+	<option name="BEAM_P"   value="e-, 10.6*GeV, 0.0*deg, 0*deg"/>
+	<option name="BEAM_V"    value="(0, 0, 0)cm"/>
+	<option name="SPREAD_V"  value="(0.0, 2.5)cm"/>
+
+	<option name="SAVE_ALL_MOTHERS" value="0"/>
+	<option name="RECORD_OPTICALPHOTONS"   value="1"/>
+
+	<option name="PHYSICS" value="FTFP_BERT + STD + Optical"/>
+
+	<option name="OUTPUT"   value="txt, out.txt"/>
+
+	<!--  Will print message every 10 events -->
+	<option name="PRINT_EVENT"    value="1000" />
+
+	<!--  Do not track staff after the apex -->
+	<option name="MAX_Z_POS" value="8000"/>
+
+
+</gcard>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Simulation GEMC Installation
 
 # ---------------------------------------------------------
