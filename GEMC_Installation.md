@@ -231,14 +231,11 @@ And build it :
 ./build-coatjava.sh
 ```
 
-
-
-
-Go to mywork folder :
+Go to `mywork` folder :
 ```
 cd /jlab/work/mywork
 ``` 
-
+Clone the detectors repository : 
  ```console 
 git clone https://github.com/gemc/detectors 
 ```
@@ -246,24 +243,17 @@ git clone https://github.com/gemc/detectors
 ```console 
 cd detectors/clas12
 ```
-
-
-
 ```console 
-cp coatjava/lib/clas/* ..
-```
-```console 
-cd .. 
-```
-```console 
-./clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11
+./../../clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11
 ```
 ```console 
 cp ahdc__* alert/AHDC_geom/
 ```
 ```console 
-./clas12-offline-software/coatjava/bin/run-groovy alert/ATOF_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11
+./../../clas12-offline-software/coatjava/bin/run-groovy alert/ATOF_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11
 ```
 ```console 
 cp atof__* alert/ATOF_geom/
 ```
+
+build with .pl 
