@@ -166,18 +166,73 @@ sudo apt install cvmfs
 Create folder : `mkdir ~/mywork` and `cd ~/mywork`
 
 ```console
-sudo docker run -it --rm -v /cvmfs:/cvmfs -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
+sudo docker run -it --rm -v /cvmfs:/cvmfs:shared -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
 ```
 
 For having an interactive windows :
 
 ```console
-sudo docker run -it --rm -p 6080:6080 -v /cvmfs:/cvmfs -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
+sudo docker run -it --rm -p 6080:6080 -v /cvmfs:/cvmfs:shared -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
 ```
 
 For quit interactive docker : `crtl p + crtl q`
 
 # Generate ALERT geometry
+
+Create `script_install.sh` with inside : 
+```vim
+echo "remove java-1.8.0"
+dnf remove java-1.8.0-openjdk-headless.x86_64 -y
+
+echo "install java-11"
+dnf install java-11-openjdk-devel -y
+
+echo "install maven"
+wget https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp
+tar xf /tmp/apache-maven-3.6.3-bin.tar.gz -C /opt
+ln -s /opt/apache-maven-3.6.3 /opt/maven
+
+export JAVA_HOME=/usr/lib/jvm/jre-openjdk
+export M2_HOME=/opt/maven
+export MAVEN_HOME=/opt/maven
+export PATH=${M2_HOME}/bin:${PATH}
+
+alternatives --set python /usr/bin/python3
+```
+
+Run it :
+   ```console 
+   . script_install.sh
+   ```
+
+Clone the `clas12-offline-software` repository : 
+
+   ```console 
+   git clone https://github.com/JeffersonLab/clas12-offline-software
+   ```
+
+Change to the Alert branch : 
+   ```console 
+   cd clas12-offline-software
+   ```
+```console 
+git checkout Alert
+```
+
+And build it : 
+
+```console 
+./build-coatjava.sh
+```
+
+
+
+
+Go to mywork folder :
+```
+cd /jlab/work/mywork
+``` 
+
  ```console 
 git clone https://github.com/gemc/detectors 
 ```
@@ -185,18 +240,9 @@ git clone https://github.com/gemc/detectors
 ```console 
 cd detectors/clas12
 ```
-```console 
-git clone https://github.com/JeffersonLab/clas12-offline-software
-```
-```console 
-cd clas12-offline-software
-```
-```console 
-git checkout Alert
-```
-```console 
-./build-coatjava.sh
-```
+
+
+
 ```console 
 cp coatjava/lib/clas/* ..
 ```
