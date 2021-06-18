@@ -197,7 +197,13 @@ export M2_HOME=/opt/maven
 export MAVEN_HOME=/opt/maven
 export PATH=${M2_HOME}/bin:${PATH}
 
+echo "Set python as alternative for python3"
 alternatives --set python /usr/bin/python3
+
+echo "groovy install"
+curl -s get.sdkman.io | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+sdk install groovy
 ```
 
 Run it :
