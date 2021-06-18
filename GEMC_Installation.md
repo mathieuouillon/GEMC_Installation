@@ -114,9 +114,26 @@ To create the `docker` group and add your user:
     docker run hello-world
     ```
 
-# Install cvmfs
 
-## Getting the software 
+# Install CVMFS on Ubuntu
+
+## What is CernVM-FS?
+
+The CernVM-File System (CernVM-FS) provides a scalable, reliable and low- maintenance software distribution service. It was developed to assist High Energy Physics (HEP) collaborations to deploy software on the worldwide- distributed computing infrastructure used to run data processing applications. CernVM-FS is implemented as a POSIX read-only file system in user space (a FUSE module). Files and directories are hosted on standard web servers and mounted in the universal namespace /cvmfs. Internally, CernVM-FS uses content-addressable storage and Merkle trees in order to maintain file data and meta-data. CernVM-FS uses outgoing HTTP connections only, thereby it avoids most of the firewall issues of other network file systems. It transfers data and meta-data on demand and verifies data integrity by cryptographic hashes.
+
+By means of aggressive caching and reduction of latency, CernVM-FS focuses specifically on the software use case. Software usually comprises many small files that are frequently opened and read as a whole. Furthermore, the software use case includes frequent look-ups for files in multiple directories when search paths are examined.
+
+CernVM-FS is actively used by small and large HEP collaborations. In many cases, it replaces package managers and shared software areas on cluster file systems as means to distribute the software used to process experiment data.
+
+## Getting Started 
+
+This section describes how to install the CernVM-FS client. The CernVM-FS client is supported on x86, x86_64, and ARM architectures running Linux and macOS ≥10.14 as well as on Windows Services for Linux (WSL2). 
+
+### Overview
+
+The CernVM-FS repositories are located under /cvmfs. Each repository is identified by a fully qualified repository name. On Linux, mounting and un-mounting of the CernVM-FS is usually controlled by autofs and automount. That means that starting from the base directory /cvmfs different repositories are mounted automatically just by accessing them. A repository will be automatically unmounted after some automount-defined idle time. On macOS, mounting and un-mounting of the CernVM-FS is done by the user with sudo mount -t cvmfs /cvmfs/... commands.
+
+## Getting the Software
 
 To add the CVMFS repository and install CVMFS run : 
 
@@ -138,24 +155,20 @@ sudo apt install cvmfs
 
 ## Setting up the Software
 
-1. Create default.local
-
-   Create `/etc/cvmfs/default.local` with `sudo nano /etc/cvmfs/default.local` and write in :
-
+1. Create `/etc/cvmfs/default.local` and open the file for editing. Select the desired repositories by setting `CVMFS_REPOSITORIES=repo1,repo2,...`. For CLAS12 add :
    ```vim
    CVMFS_QUOTA=10000
    CVMFS_REPOSITORIES=oasis.opensciencegrid.org
    CVMFS_HTTP_PROXY=DIRECT
    ```
 
-2. Configure AutoFS
+2. Configure AutoFS : For the basic setup, run `cvmfs_config setup`. This ensures that the file `/etc/auto.master.d/cvmfs.autofs` exists containing `/cvmfs /etc/auto.cvmfs` and that the autofs service is running. Reload the autofs service in order to apply an updated configuration.
 
    ```console
    sudo cvmfs_config setup
    ```
 
-3. Verify the file system
-   Check if CernVM-FS mounts the specified repositories by : 
+3. Verify the file system : Check if CernVM-FS mounts the specified repositories by : 
    ```console
    cvmfs_config probe
    ```
@@ -165,21 +178,25 @@ sudo apt install cvmfs
 
 Create folder : `mkdir ~/mywork` and `cd ~/mywork`
 
-```console
-sudo docker run -it --rm -v /cvmfs:/cvmfs:shared -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
-```
+1. Add your localhost to the list of accepted X11 connections with one of these two commands (if the first doesn’t work, try the second one):
 
-For having an interactive windows :
+   ```console
+   xhost 127.0.0.1
+   xhost local:root
+   ```
 
-```console
-sudo docker run -it --rm -p 6080:6080 -v /cvmfs:/cvmfs:shared -v ~/mywork:/jlab/work/mywork jeffersonlab/clas12software:production bash
-```
-
-For quit interactive docker : `crtl p + crtl q`
+2. Export the env variable DISPLAY:
+   ```console
+   export DISPLAY=:0
+   ```
+3. Run the command using your local x11 tmp dir:
+   ```console
+   docker run -it --rm -v /cvmfs:/cvmfs -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/mywork:/jlab/work/mywork -e DISPLAY=$DISPLAY jeffersonlab/clas12software:production /bin/bash
+   ```
 
 # Generate ALERT geometry
 
-Create `script_install.sh` in `mywork` with inside : 
+Inside the docker, create `script_install.sh` in `mywork` and open the file for editing. 
 ```vim
 echo "remove java-1.8.0"
 dnf remove java-1.8.0-openjdk-headless.x86_64 -y
@@ -243,20 +260,24 @@ git clone https://github.com/gemc/detectors
 ```console 
 cd detectors/clas12
 ```
+Generate AHDC geometry :
 ```console 
 ./../../clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11
 ```
+Copy it into `alert/AHDC_geom` folder
 ```console 
 cp ahdc__* alert/AHDC_geom/
 ```
+Generate ATOF geometry :
 ```console 
 ./../../clas12-offline-software/coatjava/bin/run-groovy alert/ATOF_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11
 ```
+Copy it into `alert/ATOF_geom` folder
 ```console 
 cp atof__* alert/ATOF_geom/
 ```
 
-build the detectors : 
+Build the detectors : 
 ```console 
 cd alert/AHDC_geom
 ```
@@ -283,10 +304,11 @@ git clone https://github.com/gemc/clas12Tags
 ```
 cd clas12Tags/4.4.0/source
 ```
+Build GEMC from source with SCons :
 ```
 scons -j4 OPT=1
 ```
-Create a `alert.gcard` : 
+Create a `alert.gcard` on source folder and open the file for editing. 
 
 ```vim
 <gcard>
@@ -310,5 +332,5 @@ Create a `alert.gcard` :
 
 Run gemc : 
 ```console 
-./gemc -USE_GUI=0 alert.gcard
+./gemc alert.gcard
 ```
