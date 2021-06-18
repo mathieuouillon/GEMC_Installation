@@ -307,3 +307,8 @@ Create a `alert.gcard` :
 
 </gcard>
 ```
+
+Run gemc : 
+```console 
+./gemc -USE_GUI=0 alert.gcard
+```
