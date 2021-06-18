@@ -2,6 +2,12 @@
 
 Check if docker is install on the computer and if you have permission to run it by running `id` command. If docker is a part of the ouput it is ok. If not, ask to the IT departement to install docker and add you to the docker group.
 
+Test docker with the command : 
+```console
+docker run -it hello-world
+```
+If a error occur, ask to the IT departement.
+
 Check if CVMFS is install and configure correctly by running the command `cd /cvmfs/aosis.opensciencegrid.org`. If the command is execute it is ok. If not ask to the IT departement to install CVMFS and setup the aosis.opensciencegrid.org folder.
 
 # Download clas12software docker
