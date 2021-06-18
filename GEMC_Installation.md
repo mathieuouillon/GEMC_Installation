@@ -256,4 +256,54 @@ cp ahdc__* alert/AHDC_geom/
 cp atof__* alert/ATOF_geom/
 ```
 
-build with .pl 
+build the detectors : 
+```console 
+cd alert/AHDC_geom
+```
+```console 
+./ahdc.pl config.dat
+```
+```console 
+cd ../ATOF_geom
+```
+Change line `detector_name: myatof` to `detector_name: atof` in `config.dat`.
+
+```console 
+./atof.pl config.dat
+```
+
+Go to `mywork` folder :
+```
+cd /jlab/work/mywork
+```
+Clone `clas12Tags` repository :
+```
+git clone https://github.com/gemc/clas12Tags
+```
+```
+cd clas12Tags/4.4.0/source
+```
+```
+scons -j4 OPT=1
+```
+Create a `alert.gcard` : 
+
+```vim
+<gcard>
+
+	<!-- Implementation ahdc, example -->
+	<detector name="/jlab/work/mywork/detectors/clas12/alert/AHDC_geom/ahdc" factory="TEXT" variation="default"/>
+	<detector name="/jlab/work/mywork/detectors/clas12/alert/ATOF_geom/myatof" factory="TEXT" variation="default"/>
+
+	<option name="BEAM_P" value="e-, 10.0*GeV, 20*deg, 20*deg"/>
+	<option name="SPREAD_P" value="2.0*GeV, 20*deg, 180*deg, flat"/>
+	
+	<option name="BEAM_V" value="(0, 0, -2.0)cm"/>
+	<option name="SPREAD_V" value="(0.0, 0.0)cm"/>	
+	
+	<option name="OUTPUT" value="txt, out.txt"/>
+	<option name="N" value="1"/>
+
+
+</gcard>
+```
