@@ -179,7 +179,7 @@ For quit interactive docker : `crtl p + crtl q`
 
 # Generate ALERT geometry
 
-Create `script_install.sh` with inside : 
+Create `script_install.sh` in `mywork` with inside : 
 ```vim
 echo "remove java-1.8.0"
 dnf remove java-1.8.0-openjdk-headless.x86_64 -y
