@@ -178,25 +178,25 @@ sudo apt install cvmfs
 
 Create folder : `mkdir ~/mywork` and `cd ~/mywork`
 
-1. Add your localhost to the list of accepted X11 connections with one of these two commands (if the first doesn’t work, try the second one):
+1. Add your localhost to the list of accepted X11 connections with one of these two commands.
 
    ```console
    xhost 127.0.0.1
    xhost local:root
    ```
 
-2. Export the env variable DISPLAY:
+2. Export the env variable DISPLAY.
    ```console
    export DISPLAY=:0
    ```
-3. Run the command using your local x11 tmp dir:
+3. Run the command using your local X11 tmp directory.
    ```console
    docker run -it --rm -v /cvmfs:/cvmfs -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/mywork:/jlab/work/mywork -e DISPLAY=$DISPLAY jeffersonlab/clas12software:production /bin/bash
    ```
 
-# Generate ALERT geometry
+# Generate ALERT geometry inside the docker
 
-Inside the docker, create `script_install.sh` in `mywork` and open the file for editing. 
+Inside the docker, create `script_install.sh` in `mywork` folder and open the file for editing with nano. 
 ```vim
 echo "remove java-1.8.0"
 dnf remove java-1.8.0-openjdk-headless.x86_64 -y
@@ -223,88 +223,58 @@ source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk install groovy
 ```
 
-Run it :
+Run the script for install good version of java, maven, groovy and setup python3 as python.
    ```console 
    . script_install.sh
    ```
 
-Clone the `clas12-offline-software` repository : 
+Clone the `clas12-offline-software` repository in `mywork` with `git clone`.  
 
    ```console 
    git clone https://github.com/JeffersonLab/clas12-offline-software
    ```
 
-Change to the Alert branch : 
-   ```console 
-   cd clas12-offline-software
-   ```
+Switch to Alert branch : 
 ```console 
-git checkout Alert
+cd clas12-offline-software && git checkout Alert
 ```
 
-And build it : 
+And build `clas12-offline-software` with available script `build-coataja.sh`.
 
 ```console 
 ./build-coatjava.sh
 ```
 
-Go to `mywork` folder :
-```
-cd /jlab/work/mywork
-``` 
-Clone the detectors repository : 
- ```console 
-git clone https://github.com/gemc/detectors 
+Change directory to `mywork` and clone `detectors` repository. 
+```console 
+cd /jlab/work/mywork && git clone https://github.com/gemc/detectors 
 ```
 
+Generate AHDC geometry with `run-groovy` command and `factory_ahdc.groovy` script and copy it into `alert/AHDC_geom` folder.
 ```console 
-cd detectors/clas12
-```
-Generate AHDC geometry :
-```console 
-./../../clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11
-```
-Copy it into `alert/AHDC_geom` folder
-```console 
-cp ahdc__* alert/AHDC_geom/
-```
-Generate ATOF geometry :
-```console 
-./../../clas12-offline-software/coatjava/bin/run-groovy alert/ATOF_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11
-```
-Copy it into `alert/ATOF_geom` folder
-```console 
-cp atof__* alert/ATOF_geom/
+./../../clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11 && cp ahdc__* alert/AHDC_geom/
 ```
 
-Build the detectors : 
+Generate ATOF geometry with `run-groovy` command and `factory_atof.groovy` script and copy it into `alert/ATOF_geom` folder.
 ```console 
-cd alert/AHDC_geom
-```
-```console 
-./ahdc.pl config.dat
-```
-```console 
-cd ../ATOF_geom
-```
-Change line `detector_name: myatof` to `detector_name: atof` in `config.dat`.
-
-```console 
-./atof.pl config.dat
+./../../clas12-offline-software/coatjava/bin/run-groovy alert/ATOF_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11 && cp atof__* alert/ATOF_geom/
 ```
 
-Go to `mywork` folder :
+Build AHDC detector with `ahdc.pl` script. 
+```console 
+cd alert/AHDC_geom && ./ahdc.pl config.dat
 ```
-cd /jlab/work/mywork
+
+
+Change line `detector_name: myatof` to `detector_name: atof` in `ATOF_geom/config.dat`with nano editor and then build ATOF detector with `atof.pl` script. 
+```console 
+cd ../ATOF_geom && ./atof.pl config.dat
 ```
-Clone `clas12Tags` repository :
+Go to `mywork` folder and clone `clas12Tags` repository and change directory to `clas12Tags/4.4.0/source`
 ```
-git clone https://github.com/gemc/clas12Tags
+cd /jlab/work/mywork && git clone https://github.com/gemc/clas12Tags && cd clas12Tags/4.4.0/source
 ```
-```
-cd clas12Tags/4.4.0/source
-```
-Build GEMC from source with SCons :
+Build GEMC from source with SCons.
 ```
 scons -j4 OPT=1
 ```
@@ -330,7 +300,7 @@ Create a `alert.gcard` on source folder and open the file for editing.
 </gcard>
 ```
 
-Run gemc : 
+And then run gemc with the gcard
 ```console 
 ./gemc alert.gcard
 ```
