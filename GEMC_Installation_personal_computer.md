@@ -119,15 +119,12 @@ To create the `docker` group and add your user:
 
 ## What is CernVM-FS?
 
-The CernVM-File System (CernVM-FS) provides a scalable, reliable and low- maintenance software distribution service. It was developed to assist High Energy Physics (HEP) collaborations to deploy software on the worldwide- distributed computing infrastructure used to run data processing applications. CernVM-FS is implemented as a POSIX read-only file system in user space (a FUSE module). Files and directories are hosted on standard web servers and mounted in the universal namespace /cvmfs. Internally, CernVM-FS uses content-addressable storage and Merkle trees in order to maintain file data and meta-data. CernVM-FS uses outgoing HTTP connections only, thereby it avoids most of the firewall issues of other network file systems. It transfers data and meta-data on demand and verifies data integrity by cryptographic hashes.
+The CernVM-File System (CernVM-FS) provides a scalable, reliable and low- maintenance software distribution service. It was developed to assist High Energy Physics (HEP) collaborations to deploy software on the worldwide- distributed computing infrastructure used to run data processing applications. 
 
-By means of aggressive caching and reduction of latency, CernVM-FS focuses specifically on the software use case. Software usually comprises many small files that are frequently opened and read as a whole. Furthermore, the software use case includes frequent look-ups for files in multiple directories when search paths are examined.
-
-CernVM-FS is actively used by small and large HEP collaborations. In many cases, it replaces package managers and shared software areas on cluster file systems as means to distribute the software used to process experiment data.
-
+CVMFS will be use later to access the magnetic field map of solenoid and torus magnet.
 ## Getting Started 
 
-This section describes how to install the CernVM-FS client. The CernVM-FS client is supported on x86, x86_64, and ARM architectures running Linux and macOS ≥10.14 as well as on Windows Services for Linux (WSL2). 
+This section describes how to install the CernVM-FS client. The CernVM-FS client is supported on `x86`, `x86_64`, and `ARM` architectures running Linux and macOS ≥ 10.14 as well as on Windows Services for Linux (WSL2). 
 
 ### Overview
 
@@ -161,6 +158,10 @@ sudo apt install cvmfs
    CVMFS_REPOSITORIES=oasis.opensciencegrid.org
    CVMFS_HTTP_PROXY=DIRECT
    ```
+   - `CVMFS_QUOTA` : Size of CVMFS client cache. Default is 4000. (CVMFS_QUOTA)
+   - `CVMFS_REPOSITORIES` : CVMFS repository configurations. (list of dicts)
+   - `CVMFS_HTTP_PROXY` : If you setup a cluster of cvmfs nodes, specify the HTTP proxy servers on your site. If you’re unsure about the proxy names, set `CVMFS_HTTP_PROXY=DIRECT`.
+
 
 2. Configure AutoFS : For the basic setup, run `cvmfs_config setup`. This ensures that the file `/etc/auto.master.d/cvmfs.autofs` exists containing `/cvmfs /etc/auto.cvmfs` and that the autofs service is running. Reload the autofs service in order to apply an updated configuration.
 
@@ -174,28 +175,32 @@ sudo apt install cvmfs
    ```
    If the probe fails, try to restart autofs with `sudo systemctl restart autofs`
 
-# Download `clas12software` docker
 
-Create folder : `mkdir ~/mywork` and `cd ~/mywork`
+# To run reconstruction
 
-1. Add your localhost to the list of accepted X11 connections with one of these two commands.
+## Download `clas12software` docker
 
-   ```console
-   xhost 127.0.0.1
-   xhost local:root
-   ```
+Create `mywork` folder.
+```console
+mkdir ~/mywork && cd ~/mywork
+```
+Add your localhost to the list of accepted X11 connections with these two commands.
 
-2. Export the env variable DISPLAY.
-   ```console
-   export DISPLAY=:0
-   ```
-3. Run the command using your local X11 tmp directory.
-   ```console
-   docker run -it --rm -v /cvmfs:/cvmfs -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/mywork:/jlab/work/mywork -e DISPLAY=$DISPLAY jeffersonlab/clas12software:production /bin/bash
-   ```
+```console
+xhost 127.0.0.1
+xhost local:root
+```
 
-# Generate ALERT geometry inside the docker
+Export the env variable DISPLAY.
+```console
+export DISPLAY=:0
+```
+Run the `clas12software` docker using your local X11 tmp directory.
+```console
+docker run -it --rm -v /cvmfs:/cvmfs -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/mywork:/jlab/work/mywork -e DISPLAY=$DISPLAY jeffersonlab/clas12software:production /bin/bash
+```
 
+## Install specific version of java, maven and groovy
 Inside the docker, create `script_install.sh` in `mywork` folder and open the file for editing with nano. 
 ```vim
 echo "remove java-1.8.0"
@@ -228,64 +233,41 @@ Run the script for install good version of java, maven, groovy and setup python3
    . script_install.sh
    ```
 
+## Download and build `clas12-offline-software`
+
+It is possible to switch branch before building the software.
+
 Clone the `clas12-offline-software` repository in `mywork` with `git clone`.  
 
    ```console 
    git clone https://github.com/JeffersonLab/clas12-offline-software
    ```
 
-Switch to Alert branch : 
-```console 
-cd clas12-offline-software && git checkout Alert
-```
-
 And build `clas12-offline-software` with available script `build-coataja.sh`.
 
 ```console 
 ./build-coatjava.sh
 ```
-
-Change directory to `mywork` and clone `detectors` repository. 
-```console 
-cd /jlab/work/mywork && git clone https://github.com/gemc/detectors 
-```
-
-Generate AHDC geometry with `run-groovy` command and `factory_ahdc.groovy` script and copy it into `alert/AHDC_geom` folder.
-```console 
-./../../clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11 && cp ahdc__* alert/AHDC_geom/
-```
-
-Generate ATOF geometry with `run-groovy` command and `factory_atof.groovy` script and copy it into `alert/ATOF_geom` folder.
-```console 
-./../../clas12-offline-software/coatjava/bin/run-groovy alert/ATOF_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11 && cp atof__* alert/ATOF_geom/
-```
-
-Build AHDC detector with `ahdc.pl` script. 
-```console 
-cd alert/AHDC_geom && ./ahdc.pl config.dat
-```
+You have now access to all the application in `coatjava/bin`, like `run-groovy`, `hipo-utils`, `recon-util`.
 
 
-Change line `detector_name: myatof` to `detector_name: atof` in `ATOF_geom/config.dat`with nano editor and then build ATOF detector with `atof.pl` script. 
-```console 
-cd ../ATOF_geom && ./atof.pl config.dat
-```
-Go to `mywork` folder and clone `clas12Tags` repository and change directory to `clas12Tags/4.4.0/source`
+# To run simulation (GEMC)
+
+Inside the `clas12software` docker, go to `mywork` folder and clone `clas12Tags` repository and change directory to `clas12Tags/4.4.0/source`
 ```
 cd /jlab/work/mywork && git clone https://github.com/gemc/clas12Tags && cd clas12Tags/4.4.0/source
 ```
-Build GEMC from source with SCons.
+Build GEMC from source with SCons.  
 ```
 scons -j4 OPT=1
 ```
-Create a `alert.gcard` on source folder and open the file for editing. 
+Create a `alert.gcard` on source folder and open the file for editing. You need the ALERT geometry file (`ahdc__bank.txt`, `ahdc__geometry_default.txt`, `ahdc__hit_default.txt`, `ahdc__materials_default.txt`, `ahdc__parameters_default.txt`, `ahdc__volumes_default.txt`, `atof__bank.txt`, `atof__geometry_default.txt`, `atof__hit_default.txt`, `atof__materials_default.txt`, `atof__parameters_default.txt`,`atof__volumes_default.txt`). You can download them **[here]()**. You need to put them inside `mywork` folder.
 
 ```vim
 <gcard>
 
-	<!-- Implementation ahdc, example -->
-	<detector name="/jlab/work/mywork/detectors/clas12/alert/AHDC_geom/ahdc" factory="TEXT" variation="default"/>
-	<detector name="/jlab/work/mywork/detectors/clas12/alert/ATOF_geom/myatof" factory="TEXT" variation="default"/>
+	<detector name="/your_path_to_geometry/ahdc" factory="TEXT" variation="default"/>
+	<detector name="/your_path_to_geometry/atof" factory="TEXT" variation="default"/>
 
 	<option name="BEAM_P" value="e-, 10.0*GeV, 20*deg, 20*deg"/>
 	<option name="SPREAD_P" value="2.0*GeV, 20*deg, 180*deg, flat"/>
@@ -304,3 +286,73 @@ And then run gemc with the gcard
 ```console 
 ./gemc alert.gcard
 ```
+
+# To generate geometry file for ALERT
+
+Inside the `clas12software` with the script `script_install.sh` run once. We can generate geometry file for ALERT.
+
+## Build ALERT branch of `clas12-offline-software`
+
+Clone the `clas12-offline-software` repository in `mywork` with `git clone`.  
+
+```console 
+git clone https://github.com/JeffersonLab/clas12-offline-software /Alert
+```
+
+Switch to Alert branch : 
+```console 
+cd clas12-offline-software && git checkout Alert
+```
+
+And build `clas12-offline-software` with available script `build-coataja.sh`.
+
+```console 
+./build-coatjava.sh
+```
+
+## Generate AHDC geometry
+
+Change directory to `mywork` and clone `detectors` repository. 
+```console 
+cd /jlab/work/mywork && git clone https://github.com/gemc/detectors 
+```
+
+Generate AHDC geometry with `run-groovy` command and `factory_ahdc.groovy` script and copy it into `alert/AHDC_geom` folder.
+```console 
+./../../clas12-offline-software/coatjava/bin/run-groovy alert/AHDC_geom/factory_ahdc.groovy --variation rga_fall2018 --runnumber 11 && cp ahdc__* alert/AHDC_geom/
+```
+## Generate ATOF geometry
+
+Generate ATOF geometry with `run-groovy` command and `factory_atof.groovy` script and copy it into `alert/ATOF_geom` folder.
+```console 
+./../../clas12-offline-software/coatjava/bin/run-groovy alert/ATOF_geom/factory_atof.groovy --variation rga_fall2018 --runnumber 11 && cp atof__* alert/ATOF_geom/
+```
+
+Build AHDC detector with `ahdc.pl` script. 
+```console 
+cd alert/AHDC_geom && ./ahdc.pl config.dat
+```
+
+
+Change line `detector_name: myatof` to `detector_name: atof` in `ATOF_geom/config.dat`with nano editor and then build ATOF detector with `atof.pl` script. 
+```console 
+cd ../ATOF_geom && ./atof.pl config.dat
+```
+
+Now you have in `AHDC_geom` folder : 
+- `ahdc__bank.txt`
+- `ahdc__geometry_default.txt`
+- `ahdc__hit_default.txt`
+- `ahdc__materials_default.txt`
+- `ahdc__parameters_default.txt`
+- `ahdc__volumes_default.txt`
+
+And in `ATOF_geom` : 
+- `atof__bank.txt`
+- `atof__geometry_default.txt`
+- `atof__hit_default.txt`
+- `atof__materials_default.txt`
+- `atof__parameters_default.txt`
+- `atof__volumes_default.txt`
+
+which are the ALERT geometry file.
