@@ -261,7 +261,9 @@ Build GEMC from source with SCons.
 ```
 scons -j4 OPT=1
 ```
-Create a `alert.gcard` on source folder and open the file for editing. You need the ALERT geometry file (`ahdc__bank.txt`, `ahdc__geometry_default.txt`, `ahdc__hit_default.txt`, `ahdc__materials_default.txt`, `ahdc__parameters_default.txt`, `ahdc__volumes_default.txt`, `atof__bank.txt`, `atof__geometry_default.txt`, `atof__hit_default.txt`, `atof__materials_default.txt`, `atof__parameters_default.txt`,`atof__volumes_default.txt`). You can download them **[here]()**. You need to put them inside `mywork` folder.
+You need the ALERT geometry file (`ahdc__bank.txt`, `ahdc__geometry_default.txt`, `ahdc__hit_default.txt`, `ahdc__materials_default.txt`, `ahdc__parameters_default.txt`, `ahdc__volumes_default.txt`, `atof__bank.txt`, `atof__geometry_default.txt`, `atof__hit_default.txt`, `atof__materials_default.txt`, `atof__parameters_default.txt`, `atof__volumes_default.txt`). You can download them **[here]()**. You need to put them inside `mywork` folder.
+
+Create a `alert.gcard` on source folder and open the file for editing.
 
 ```vim
 <gcard>
