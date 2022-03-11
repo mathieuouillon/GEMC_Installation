@@ -197,7 +197,7 @@ export DISPLAY=:0
 ```
 Run the `clas12software` docker using your local X11 tmp directory.
 ```console
-docker run -it --rm -v /cvmfs:/cvmfs -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/mywork:/jlab/work/mywork -e DISPLAY=$DISPLAY jeffersonlab/clas12software:production /bin/bash
+docker run -it --rm -v /cvmfs:/cvmfs:shared -v /tmp/.X11-unix:/tmp/.X11-unix -v ~/mywork:/jlab/work/mywork -e DISPLAY=$DISPLAY jeffersonlab/clas12software:production /bin/bash
 ```
 
 ## Install specific version of java, maven and groovy
