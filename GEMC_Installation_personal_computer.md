@@ -203,6 +203,18 @@ docker run -it --rm -v /cvmfs:/cvmfs:shared -v /tmp/.X11-unix:/tmp/.X11-unix -v 
 ## Install specific version of java, maven and groovy
 Inside the docker, create `script_install.sh` in `mywork` folder and open the file for editing with nano. 
 ```vim
+cd /etc/yum.repos.d/
+sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+cd /jlab/work/mywork/
+
+dnf install centos-release-stream -y
+dnf swap centos-{linux,stream}-repos -y
+dnf distro-sync -y
+
+dnf update
+
 echo "remove java-1.8.0"
 dnf remove java-1.8.0-openjdk-headless.x86_64 -y
 
@@ -210,9 +222,9 @@ echo "install java-11"
 dnf install java-11-openjdk-devel -y
 
 echo "install maven"
-wget https://www-us.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz -P /tmp
-tar xf /tmp/apache-maven-3.6.3-bin.tar.gz -C /opt
-ln -s /opt/apache-maven-3.6.3 /opt/maven
+wget https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz -P /tmp
+tar xf /tmp/apache-maven-3.8.5-bin.tar.gz -C /opt
+ln -s /opt/apache-maven-3.8.5 /opt/maven
 
 export JAVA_HOME=/usr/lib/jvm/jre-openjdk
 export M2_HOME=/opt/maven
